@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: firewall-ip-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: firewall-ip
+  template:
+    metadata:
+      labels:
+        app: firewall-ip
+    spec:
+      containers:
+      - name: app
+        image: quarkus/ip-firewall-jvm:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
