@@ -10,9 +10,6 @@ import java.net.http.HttpResponse;
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
-import io.quarkus.scheduler.Scheduler;
-import io.quarkus.scheduler.Scheduled.ConcurrentExecution;
-import jakarta.inject.Inject;
 
 @QuarkusMain
 public class Main {
@@ -22,11 +19,6 @@ public class Main {
     }
 
     public static class IPFirewallApp implements QuarkusApplication {
-        @Inject
-        Scheduler scheduler;
-
-        @Inject
-        IPService ipService; 
 
         @Override
         public int run(String... args) throws Exception {
@@ -34,13 +26,6 @@ public class Main {
                 retrieveFile();
             }
             else {
-                scheduler.newJob("updateIPRepository")
-                .setConcurrentExecution(ConcurrentExecution.SKIP)
-                .setCron("0/5 * * * * ?")
-                .setTask(executionContext -> { 
-                    ipService.updateIPRepository();
-                })
-                .schedule(); 
                 Quarkus.waitForExit();
             }
             return 0;
