@@ -16,7 +16,7 @@ class IPResourceTest {
   @Test
     void testIPDoesNotExist() {
         given()
-          .when().get("/ip/127.0.0.1")
+          .when().get("/check-ip?ip=127.0.0.1")
           .then()
              .statusCode(200)
              .body(is("false"));
@@ -25,7 +25,7 @@ class IPResourceTest {
     @Test
     void testIPExists() {
         given()
-          .when().get("/ip/45.155.91.99")
+          .when().get("/check-ip?ip=45.155.91.99")
           .then()
              .statusCode(200)
              .body(is("true"));
